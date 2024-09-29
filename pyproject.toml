@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "kpefk-telegram-bot"
+version = "0.0.1"
+description = "Telegram bot for students of KPEFK LNTU"
+authors = ["Roman <cheepa30@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiogram = "^3.13.1"
+pydantic = "^2.9.2"
+pydantic-settings = "^2.5.2"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.35"}
+alembic = "^1.13.3"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+aiosqlite = "^0.20.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
