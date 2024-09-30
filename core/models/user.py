@@ -8,3 +8,4 @@ class User(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     username: Mapped[str]
+    telegram_id: Mapped[int] = mapped_column(nullable=False)
