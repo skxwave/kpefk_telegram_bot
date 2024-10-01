@@ -6,6 +6,7 @@ from aiogram import F
 
 from core import db_helper
 from bot.keyboards import pagination_keyboard
+from bot.handlers.commands import send_menu
 
 router = Router()
 
@@ -30,7 +31,7 @@ async def send_schedule(callback: CallbackQuery):
     day = current_date.strftime("%A")
     text = await schedule_output(callback.from_user.id, day=day)
 
-    await callback.message.answer(
+    await callback.message.edit_text(
         text=text,
         parse_mode="MarkDownV2",
         reply_markup=pagination_keyboard(),
@@ -58,6 +59,7 @@ async def paginate_schedule(callback: CallbackQuery):
     await send_schedule(callback)
 
 
-@router.callback_query(F.data == "close_schedule")
+@router.callback_query(F.data == "back")
 async def close_schedule(callback: CallbackQuery):
     await callback.message.delete()
+    await send_menu(callback.message)

@@ -3,6 +3,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
 from bot.misc.states import SetGroupState
+from bot.handlers.commands import send_menu
 from core import db_helper
 
 router = Router()
@@ -21,4 +22,5 @@ async def store_group(message: Message, state: FSMContext):
         group=int(message.text),
     )
     await message.reply("Group added!")
+    await send_menu(message)
     await state.clear()

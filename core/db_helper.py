@@ -36,11 +36,13 @@ db_helper = DatabaseHelper(url=settings.db.url)
 async def create_user(
     username: str,
     telegram_id: int,
+    group: int,
 ):
     async with db_helper.session_factory() as session:
         user = User(
             username=username,
             telegram_id=telegram_id,
+            group=group,
         )
         session.add(user)
         await session.commit()
