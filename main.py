@@ -2,7 +2,7 @@ import asyncio
 
 from aiogram import Dispatcher, Bot
 
-from bot.handlers import commands_router
+from bot.handlers import commands_router, schedule_router, group_router
 from core.config import settings
 
 
@@ -11,9 +11,14 @@ async def main():
     dp = Dispatcher()
     dp.include_routers(
         commands_router,
+        schedule_router,
+        group_router,
     )
     await dp.start_polling(bot)
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("Exiting...")
