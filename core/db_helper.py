@@ -50,6 +50,16 @@ async def create_user(
     return user
 
 
+async def change_admin(
+    telegram_id: int,
+):
+    async with db_helper.session_factory() as session:
+        user = await session.scalar(select(User).where(User.telegram_id == telegram_id))
+        user.is_admin = not user.is_admin
+        await session.commit()
+    return user
+
+
 async def find_user(telegram_id: int):
     async with db_helper.session_factory() as session:
         user = await session.scalar(select(User).where(User.telegram_id == telegram_id))
