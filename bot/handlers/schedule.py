@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import requests
 
 from aiogram import Router
 from aiogram.types import CallbackQuery
@@ -15,15 +16,18 @@ current_date = datetime.now().date()
 
 async def schedule_output(telegram_id, day):
     user = await db_helper.find_user(telegram_id)
-    lessons = await db_helper.find_lessons(user.group, day=day)
+    lessons = requests.get(
+        f"https://skxwave.pythonanywhere.com/api/v1/schedule/{user.group}"
+    )
     text = f"*Weekday*: {day}\n\n"
-    for lesson in lessons:
-        text += (
-            f"*Lesson number*: {lesson.lesson_number}\n"
-            f"*Subject*: {lesson.subject}\n"
-            f"*Classroom*: {lesson.classroom}\n"
-            f"*Teacher*: {lesson.teacher}\n\n"
-        )
+    for lesson in lessons.json()["result"][day]:
+        if lesson["title"]:
+            text += (
+                f"*Lesson number*: {lesson['number']}\n"
+                f"*Subject*: {lesson['title']}\n"
+                f"*Classroom*: {lesson['room']}\n"
+                f"*Teacher*: {lesson['teacher']}\n\n"
+            )
     return text
 
 
