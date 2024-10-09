@@ -1,3 +1,5 @@
+import requests
+
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
@@ -17,6 +19,11 @@ async def set_group(callback: CallbackQuery, state: FSMContext):
 
 @router.message(SetGroupState.group)
 async def store_group(message: Message, state: FSMContext):
+    lessons = requests.get(
+        f"https://skxwave.pythonanywhere.com/api/v1/schedule/{message.text}"
+    )
+    if not lessons:
+        return await message.answer(text="Group dont exist. Enter another")
     await db_helper.set_group(
         telegram_id=message.from_user.id,
         group=int(message.text),

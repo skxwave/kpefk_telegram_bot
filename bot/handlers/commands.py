@@ -1,3 +1,5 @@
+import requests
+
 from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters.command import Command
@@ -30,6 +32,11 @@ async def start_message(message: Message, state: FSMContext):
 
 @router.message(CreateUserState.group)
 async def create_user(message: Message, state: FSMContext):
+    lessons = requests.get(
+        f"https://skxwave.pythonanywhere.com/api/v1/schedule/{message.text}"
+    )
+    if not lessons:
+        return await message.answer(text="Group dont exist. Enter another")
     await db_helper.create_user(
         username=message.from_user.username,
         telegram_id=message.from_user.id,
