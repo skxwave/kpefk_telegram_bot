@@ -10,6 +10,6 @@ def pagination_keyboard() -> InlineKeyboardMarkup:
         InlineKeyboardButton(text="->", callback_data="next_day"),
     )
     builder.row(
-        InlineKeyboardButton(text="Close", callback_data="back"),
+        InlineKeyboardButton(text="Назад", callback_data="back"),
     )
     return builder.as_markup()

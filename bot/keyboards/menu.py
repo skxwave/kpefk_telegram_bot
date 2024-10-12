@@ -5,8 +5,11 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 def get_menu() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     builder.row(
-        InlineKeyboardButton(text="Schedule", callback_data="show_schedule"),
-        InlineKeyboardButton(text="Group", callback_data="choose_group"),
+        InlineKeyboardButton(text="Розклад", callback_data="show_schedule"),
+        InlineKeyboardButton(text="Змінити групу", callback_data="choose_group"),
+    )
+    builder.row(
+        InlineKeyboardButton(text="Інформація", callback_data="group_info"),
     )
     return builder.as_markup()
 
