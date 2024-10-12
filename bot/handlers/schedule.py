@@ -15,18 +15,20 @@ current_date = datetime.now().date()
 
 
 async def schedule_output(telegram_id, day):
+    if day in ["Saturday", "Sunday"]:
+        return f"*{day}*\n\n"
     user = await db_helper.find_user(telegram_id)
     lessons = requests.get(
         f"https://skxwave.pythonanywhere.com/api/v1/schedule/{user.group}"
     )
-    text = f"*Weekday*: {day}\n\n"
+    text = f"*День*: {day}\n\n"
     for lesson in lessons.json()["result"][day]:
         if lesson["title"]:
             text += (
-                f"*Lesson number*: {lesson['number']}\n"
-                f"*Subject*: {lesson['title']}\n"
-                f"*Classroom*: {lesson['room']}\n"
-                f"*Teacher*: {lesson['teacher']}\n\n"
+                f"*Номер:* {lesson['number']}\n"
+                f"*Предмет:* {lesson['title']}\n"
+                f"*Кабінет:* {lesson['room']}\n"
+                f"*Викладач:* {lesson['teacher']}\n\n"
             )
     return text
 
