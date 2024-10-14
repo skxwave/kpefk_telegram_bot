@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "kpefk-telegram-bot"
-version = "0.0.3"
+version = "0.1.0"
 description = "Telegram bot for students of KPEFK LNTU"
 authors = ["Roman <cheepa30@gmail.com>"]
 license = "MIT"
