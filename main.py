@@ -13,8 +13,6 @@ async def main():
         rt.commands_router,
         rt.schedule_router,
         rt.group_router,
-        rt.admin_menu_router,
-        rt.admin_schedule_router,
         rt.notification_router,
     )
     await dp.start_polling(bot)
