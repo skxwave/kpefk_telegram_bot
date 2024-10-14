@@ -4,13 +4,13 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 def get_menu() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
-    builder.row(
+    builder.add(
         InlineKeyboardButton(text="Розклад", callback_data="show_schedule"),
         InlineKeyboardButton(text="Змінити групу", callback_data="choose_group"),
-    )
-    builder.row(
         InlineKeyboardButton(text="Інформація", callback_data="group_info"),
+        InlineKeyboardButton(text="Вийти", callback_data="exit"),
     )
+    builder.adjust(2)
     return builder.as_markup()
 
 
