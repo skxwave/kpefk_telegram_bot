@@ -17,18 +17,41 @@ current_date = datetime.now().date()
 async def schedule_output(telegram_id, day):
     if day in ["Saturday", "Sunday"]:
         return f"*{day}*\n\n"
+
     user = await db_helper.find_user(telegram_id)
     lessons = requests.get(
         f"https://skxwave.pythonanywhere.com/api/v1/schedule/{user.group}"
     )
+
+    is_numerator = requests.get(
+        "https://skxwave.pythonanywhere.com/api/v1/schedule/info/"
+    ).json()["result"]["is_numerator"]
+
     text = f"*День*: {day}\n\n"
+
     for lesson in lessons.json()["result"][day]:
-        if lesson["title"]:
+        title = (
+            lesson["title_denom"]
+            if lesson["title_denom"] and not is_numerator
+            else lesson["title"]
+        )
+        room = (
+            lesson["room_denom"]
+            if lesson["room_denom"] and not is_numerator
+            else lesson["room"]
+        )
+        teacher = (
+            lesson["teacher_denom"]
+            if lesson["teacher_denom"] and not is_numerator
+            else lesson["teacher"]
+        )
+
+        if title:
             text += (
                 f"*Номер:* {lesson['number']}\n"
-                f"*Предмет:* {lesson['title']}\n"
-                f"*Кабінет:* {lesson['room']}\n"
-                f"*Викладач:* {lesson['teacher']}\n\n"
+                f"*Предмет:* {title}\n"
+                f"*Кабінет:* {room}\n"
+                f"*Викладач:* {teacher}\n\n"
             )
     return text
 
