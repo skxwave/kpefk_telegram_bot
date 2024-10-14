@@ -29,7 +29,7 @@ async def start_message(message: Message, state: FSMContext):
     if not user:
         await state.set_state(CreateUserState.group)
         await message.answer(
-            "Введіть номер своєї групи.\n\nПриклад:\n`405`\n`125`\n`232`",
+            "Введіть номер своєї групи\.\n\nПриклад:\n`405`\n`125`\n`232`",
             parse_mode="MarkDownV2",
         )
         return
