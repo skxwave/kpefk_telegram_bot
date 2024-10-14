@@ -14,7 +14,10 @@ router = Router()
 
 @router.callback_query(F.data == "choose_group")
 async def set_group(callback: CallbackQuery, state: FSMContext):
-    await callback.message.edit_text("Введіть номер своєї групи:")
+    await callback.message.edit_text(
+        "Введіть номер своєї групи\.\n\nПриклад:\n`405`\n`125`\n`232`",
+        parse_mode="MarkDownV2",
+    )
     await state.set_state(SetGroupState.group)
 
 
@@ -26,7 +29,7 @@ async def store_group(message: Message, state: FSMContext):
             group=int(message.text),
         )
         await message.reply("Група додана!")
-        await send_menu(message)
+        await send_menu(message, message.from_user.id)
         await state.clear()
     else:
         await message.reply("Група не існує.")

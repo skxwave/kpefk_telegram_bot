@@ -91,4 +91,4 @@ async def paginate_schedule(callback: CallbackQuery):
 @router.callback_query(F.data == "back")
 async def close_schedule(callback: CallbackQuery):
     await callback.message.delete()
-    await send_menu(callback.message)
+    await send_menu(callback.message, callback.from_user.id)
